@@ -51,9 +51,9 @@ public class Turret : MonoBehaviour
 
     void RotateTurret()
     {
-        TurretBase.transform.rotation = Quaternion.Lerp(TurretBase.transform.rotation, LookTarget.transform.rotation, 0.005f);
+        TurretBase.transform.rotation = Quaternion.LerpUnclamped(TurretBase.transform.rotation, LookTarget.transform.rotation, YawSpeed*Time.deltaTime);
         TurretBase.transform.rotation = Quaternion.Euler(new Vector3(0f, TurretBase.transform.rotation.eulerAngles.y, 0f));
-        TurretCannon.transform.rotation = Quaternion.Lerp(TurretCannon.transform.rotation, LookTarget.transform.rotation, 0.009f);
+        TurretCannon.transform.rotation = Quaternion.LerpUnclamped(TurretCannon.transform.rotation, LookTarget.transform.rotation, PitchSpeed * Time.deltaTime);
         TurretCannon.transform.localRotation = Quaternion.Euler(new Vector3(TurretCannon.transform.rotation.eulerAngles.x, 0f, 0f));
 
     }
@@ -72,6 +72,7 @@ public class Turret : MonoBehaviour
             GameObject go = Instantiate(MissilePrefab, TurretCannon.transform.position, TurretCannon.transform.rotation);
             ActiveMissile = go.GetComponent<Missile>();
             ActiveMissile.Target = BoxTransform;
+            Rotate = false;
         }
     }
 }

@@ -14,14 +14,17 @@ public class BoxManager : MonoBehaviour
     GameObject WeaponPrefab;
     float BoxSpawnTimer;
     const int BoxSpawnCooldown = 5;
+    int ActualBox;
+    [SerializeField]
+    private GameManager gameManager;
 
     void Start()
     {
         BoxSpawnTimer = 0f;
-
+        ActualBox = 0;
         for (int i = 0; i < BoxQuant;i++)
         {
-            GameObject go = Instantiate(BoxPrefab, new Vector3(i * 2 - 10, 1, 0), Quaternion.identity);
+            GameObject go = Instantiate(BoxPrefab);
             Box b = go.GetComponent<Box>();
             Turret player = GameObject.Find("Turret").GetComponent<Turret>();
 
@@ -31,6 +34,7 @@ public class BoxManager : MonoBehaviour
             Boxes[i].Player = player;
             Boxes[i].gameObject.SetActive(false);
         }
+        SpawnBox();
     }
 
     private void Update()
@@ -45,26 +49,31 @@ public class BoxManager : MonoBehaviour
 
     private void SpawnBox()
     {
-        for(int i=0;i<BoxQuant;i++)
+        for(int i=ActualBox;i<BoxQuant;i++)
         {
             if(!Boxes[i].gameObject.activeSelf)
             {
                 Boxes[i].gameObject.SetActive(true);
-                Boxes[i].transform.position = new Vector3(Random.Range(SpawnArea.bounds.min.x, SpawnArea.bounds.max.x), Random.Range(SpawnArea.bounds.min.y, SpawnArea.bounds.max.y),
+                Boxes[i].transform.position = new Vector3(Random.Range(SpawnArea.bounds.min.x, SpawnArea.bounds.max.x), SpawnArea.bounds.center.y,
                                                         Random.Range(SpawnArea.bounds.min.z, SpawnArea.bounds.max.z));
                 Boxes[i].transform.rotation = Quaternion.identity;
+                ActualBox++;
                 return;
             }
         }
     }
 
-    private void BoxDestroyedAsADispatcher(Box b)
+    private void BoxDestroyedAsADispatcher(Box b,bool onFloor)
     {
-        b.gameObject.SetActive(false);
+        GameManager.Instance.AddBoxDestroyed(onFloor);
+        Destroy(b.gameObject);
     }
 
-    private void SpawnWeapons(Box b)
+    private void SpawnWeapons(Box b, bool onFloor)
     {
-        Instantiate(WeaponPrefab, b.transform.position, Quaternion.identity);
+        if(!onFloor)
+        {
+            Instantiate(WeaponPrefab, b.transform.position, Quaternion.identity);
+        }
     }
 }

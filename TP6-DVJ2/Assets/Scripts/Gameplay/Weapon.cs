@@ -19,16 +19,14 @@ public class Weapon : MonoBehaviour
             OnFloorTimer += Time.deltaTime;
             if(OnFloorTimer>=OnFloorMaxTime)
             {
-                Destroy(this);
+                Destroy(this.gameObject);
             }
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.tag=="floor")
-        {
+        if(collision.collider.tag=="Floor")
             OnFloor = true;
-        }
     }
 }

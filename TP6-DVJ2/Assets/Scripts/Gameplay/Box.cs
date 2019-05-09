@@ -5,8 +5,9 @@ using UnityEngine;
 public class Box : MonoBehaviour
 {
     public Turret Player;
-    public delegate void BoxDestroyedAction(Box box);
+    public delegate void BoxDestroyedAction(Box box, bool onFloor);
     public BoxDestroyedAction OnBoxDestroyed;
+    bool OnFloor = false;
 
     private void OnMouseDown()
     {
@@ -16,22 +17,32 @@ public class Box : MonoBehaviour
     private void BoxDestroyed()
     {
         DestroyAsDispatcher();
+        
     }
 
     private void DestroyAsDispatcher()
     {
         if(OnBoxDestroyed!=null)
         {
-            OnBoxDestroyed(this);
+            OnBoxDestroyed(this,OnFloor);
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.tag=="Missile")
+        if (collision.collider.tag == "Floor")
+        {
+            OnFloor = true;
+            BoxDestroyed();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Missile")
         {
             BoxDestroyed();
-            Destroy(collision.collider.gameObject);
+            Destroy(other.gameObject);
         }
     }
 }
