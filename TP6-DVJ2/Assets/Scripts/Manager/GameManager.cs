@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -29,11 +30,13 @@ public class GameManager : MonoBehaviour
     public int Score
     {
         get { return score; }
+        set { score=value; }
     }
 
     public int DestroyedBoxes
     {
         get { return destroyedBoxes; }
+        set { destroyedBoxes = value; }
     }
 
     public void AddBoxDestroyed(bool OnFloor)
@@ -47,6 +50,10 @@ public class GameManager : MonoBehaviour
         {
             score += ScorePerBoxOnFloor;
         }
-        Debug.Log(score);
+    }
+
+    public void GameOver()
+    {
+        SceneManager.LoadScene("EndGameScene");
     }
 }

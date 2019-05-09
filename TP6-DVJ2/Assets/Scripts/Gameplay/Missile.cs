@@ -6,7 +6,6 @@ public class Missile : MonoBehaviour
 {
     public Transform Target;
     public float Speed;
-    Vector3 LastBoxPos;
 
     void Update()
     {

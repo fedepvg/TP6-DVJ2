@@ -17,6 +17,7 @@ public class BoxManager : MonoBehaviour
     int ActualBox;
     [SerializeField]
     private GameManager gameManager;
+    private int BoxesLeft;
 
     void Start()
     {
@@ -33,6 +34,7 @@ public class BoxManager : MonoBehaviour
             Boxes.Add(b);
             Boxes[i].Player = player;
             Boxes[i].gameObject.SetActive(false);
+            BoxesLeft = BoxQuant;
         }
         SpawnBox();
     }
@@ -44,6 +46,10 @@ public class BoxManager : MonoBehaviour
         {
             SpawnBox();
             BoxSpawnTimer = 0;
+        }
+        if(BoxesLeft<=0)
+        {
+            GameManager.Instance.GameOver();
         }
     }
 
@@ -65,6 +71,7 @@ public class BoxManager : MonoBehaviour
 
     private void BoxDestroyedAsADispatcher(Box b,bool onFloor)
     {
+        BoxesLeft--;
         GameManager.Instance.AddBoxDestroyed(onFloor);
         Destroy(b.gameObject);
     }
