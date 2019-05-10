@@ -669,7 +669,7 @@ GameObject:
   - component: {fileID: 1877064304}
   - component: {fileID: 1877064302}
   m_Layer: 5
-  m_Name: EnemiesDawn
+  m_Name: BoxesDestroyed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -845,11 +845,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1900722483}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 197fad69f13cab048aa0d6b426b33edf, type: 3}
+  m_Script: {fileID: 11500000, guid: 7df1c81f80b6be34e8645d4142bf3d8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ScoreText: {fileID: 1776199041}
-  EnemiesDawnText: {fileID: 1877064302}
+  DestroyedBoxesText: {fileID: 1877064302}
 --- !u!1 &1969293601
 GameObject:
   m_ObjectHideFlags: 0
